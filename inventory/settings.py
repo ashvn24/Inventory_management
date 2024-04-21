@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'users',
     'stock',
-    'django_celery_results'
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -99,7 +101,7 @@ DATABASES = {
         'NAME': 'inventory',
         'USER':'postgres',
         'PASSWORD':'0089ashi',
-        'HOST':'localhost',  
+        'HOST':'pgdb',  
         'PORT':'5432',
     }
 }
@@ -150,6 +152,19 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/kolkata'
 
 CELERY_RESULT_BACKEND = 'django-db'
+
+# CELERY_BEAT_SHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_BEAT_SCHEDULE = {
+      'add-every-30-seconds': {
+        'task': 'stock.task.CheckStock',
+        'schedule': crontab(hour=9, minute=0),
+    },
+      'generate-sales-every-month':{
+          'task':'stock.task.download_sales_report',
+          'schedule':crontab(0, 0, day_of_month='1')
+      }
+}
 
 EMAIL_HOST_USER = 'ashwinvk77@gmail.com'
 EMAIL_HOST_PASSWORD = "ktsg khti mimn zphi"
