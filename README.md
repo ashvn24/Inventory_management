@@ -46,6 +46,7 @@ http://127.0.0.1:8000/
 - User Management: Allows administrators to manage users, including creating, updating, and deleting user accounts.
 - Automated Tasks: Celery is used for scheduling automated tasks such as sending notifications and managing stock levels.
 - Secure Authentication: JWT (JSON Web Tokens) are used for secure authentication, providing a robust authentication mechanism.
+- Sales Report: Automatically Generated Sales Reports: Generate detailed sales reports in Excel format every month.
 - API Testing: All APIs are thoroughly tested using Postman to ensure reliability and functionality.
 - Dockerized Project: The entire project is dockerized, making it easy to deploy and manage in various environments.
 
